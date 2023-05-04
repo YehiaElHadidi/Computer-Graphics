@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/main.cpp
+tchar.h
+-
+windows.h
+-
+bits/stdc++.h
+-
+
