@@ -10,6 +10,123 @@
 
 using namespace std;
 
+int quadX, quadY;
+
+
+void draw8points(HDC hdc, int xc, int yc, int a, int b, COLORREF color) {
+
+    SetPixel(hdc, xc + a, yc + b, color);
+    SetPixel(hdc, xc + b, yc + a, color);
+
+    SetPixel(hdc, xc - a, yc + b, color);
+    SetPixel(hdc, xc - b, yc + a, color);
+
+    SetPixel(hdc, xc - a, yc - b, color);
+    SetPixel(hdc, xc - b, yc - a, color);
+
+    SetPixel(hdc, xc + a, yc - b, color);
+    SetPixel(hdc, xc + b, yc - a, color);
+
+}
+
+void drawCircleDDA(HDC hdc, int xc, int yc, int r, COLORREF color) {
+
+    int x = 0;
+    int y = r;
+
+    int d = 1 - r;
+
+    while (x < y) {
+        if (d <= 0) {
+            d += 2 * x + 3;
+
+        } else {
+            d += 2 * (x - y) + 5;
+            y--;
+        }
+        x++;
+        draw8points(hdc, xc, yc, x, y, color);
+    }
+}
+
+int base = 0;
+int base1;
+
+void draw8pointsWithCircles(HDC hdc, int xc, int yc, int a, int b, int r, COLORREF color) {
+
+    SetPixel(hdc, xc + a, yc + b, color);
+    SetPixel(hdc, xc + b, yc + a, color);
+
+    SetPixel(hdc, xc - a, yc + b, color);
+    SetPixel(hdc, xc - b, yc + a, color);
+
+    SetPixel(hdc, xc - a, yc - b, color);
+    SetPixel(hdc, xc - b, yc - a, color);
+
+    SetPixel(hdc, xc + a, yc - b, color);
+    SetPixel(hdc, xc + b, yc - a, color);
+
+    if (xc + a >= (base + (r / 16))) {
+        base = (xc + a) + (r / 16);
+        for (int i = yc; i <= yc + b; i += (r / 8)) {
+            if (quadX < xc && quadY < yc) {
+                drawCircleDDA(hdc, xc - a, i - b, r / 16, RGB(128, 128, 128));
+            } else if (quadX > xc && quadY < yc)
+                drawCircleDDA(hdc, xc + a, i - b, r / 16, RGB(128, 128, 128));
+            else if (quadX > xc && quadY > yc)
+                drawCircleDDA(hdc, xc + a, i, r / 16, RGB(128, 128, 128));
+            else if (quadX < xc && quadY > yc)
+                drawCircleDDA(hdc, xc - a, i, r / 16, RGB(128, 128, 128));
+
+        }
+    }
+    if (xc + b <= base1 - (r / 16)) {
+        base1 = (xc + b) - (r / 16);
+        for (int i = yc; i <= yc + a; i += (r / 8)) {
+            if (quadX < xc && quadY < yc)
+                drawCircleDDA(hdc, xc - b, i - a, r / 16, RGB(128, 128, 128));
+            else if (quadX > xc && quadY < yc)
+                drawCircleDDA(hdc, xc + b, i - a, r / 16, RGB(128, 128, 128));
+            else if (quadX > xc && quadY > yc)
+                drawCircleDDA(hdc, xc + b, i, r / 16, RGB(128, 128, 128));
+            else if (quadX < xc && quadY > yc)
+                drawCircleDDA(hdc, xc - b, i, r / 16, RGB(128, 128, 128));
+
+        }
+    }
+
+
+
+}
+
+// the quarter that is going to be filled is depending on the place of the second click
+void drawCircleDDAWithCircles(HDC hdc, int xc, int yc, int r, COLORREF color) {
+
+    base = xc;
+    base1 = xc + r;
+    int x = 0;
+    int y = r;
+
+    int d = 1 - r;
+
+    while (x < y) {
+        if (d <= 0) {
+            d += 2 * x + 3;
+
+        } else {
+            d += 2 * (x - y) + 5;
+            y--;
+        }
+        x++;
+        draw8pointsWithCircles(hdc, xc, yc, x, y, r, color);
+    }
+
+
+}
+
+
+int x1, y11, x2, y2, cnt = 0;
+
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
@@ -87,7 +204,19 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
         case WM_DESTROY:
             PostQuitMessage(0);       /* send a WM_QUIT to the message queue */
             break;
+        case WM_LBUTTONDOWN:
+            if (cnt % 2 == 0) {
+                x1 = LOWORD(lParam);
+                y11 = HIWORD(lParam);
+                cnt++;
+            } else if (cnt % 2 == 1) {
+                quadX = LOWORD(lParam);
+                quadY = HIWORD(lParam);
+                int r = sqrt((y11 - quadY) * (y11 - quadY) + (x1 - quadX) * (x1 - quadX));
 
+                drawCircleDDAWithCircles(hdc, x1, y11, r, RGB(128, 128, 128));
+                cnt++;
+            }
         default:                      /* for messages that we don't deal with */
             return DefWindowProc(hwnd, message, wParam, lParam);
     }
