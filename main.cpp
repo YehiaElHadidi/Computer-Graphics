@@ -7,6 +7,7 @@
 #include <tchar.h>
 #include <windows.h>
 #include <bits/stdc++.h>
+#include <fstream>
 
 using namespace std;
 
@@ -196,6 +197,32 @@ int WINAPI WinMain(HINSTANCE hThisInstance,
     return messages.wParam;
 }
 
+void save(HDC hdc){
+    ofstream out("file.txt");
+    for (int i = 0; i < 529; ++i) {
+        for (int j = 0; j < 336; ++j) {
+            COLORREF col = GetPixel(hdc,i,j);
+            if(col != 0x00FFFFFF){
+                out << i << ' ' << j << ' ' << col << ' ';
+            }
+        }
+
+    }
+    cout << "DONE" << endl;
+    out.close();
+
+}
+void load(HDC hdc){
+    ifstream input("file.txt");
+    int x,y;
+    COLORREF col;
+    while(input >> x){
+        input >> y;
+        input >> col;
+        SetPixel(hdc,x,y,col);
+    }
+    input.close();
+}
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
     HDC hdc = GetDC(hwnd);
@@ -204,7 +231,16 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
         case WM_DESTROY:
             PostQuitMessage(0);       /* send a WM_QUIT to the message queue */
             break;
+
+
+        case WM_RBUTTONDOWN:
+                save(hdc);
+                break;
+
         case WM_LBUTTONDOWN:
+            load(hdc);
+            break;
+
             if (cnt % 2 == 0) {
                 x1 = LOWORD(lParam);
                 y11 = HIWORD(lParam);
