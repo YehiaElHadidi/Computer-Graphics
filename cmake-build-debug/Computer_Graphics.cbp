@@ -80,6 +80,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Circle.h">
+			<Option target="Computer_Graphics"/>
+		</Unit>
+		<Unit filename="D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Line.h">
+			<Option target="Computer_Graphics"/>
+		</Unit>
 		<Unit filename="D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/main.cpp">
 			<Option target="Computer_Graphics"/>
 		</Unit>
