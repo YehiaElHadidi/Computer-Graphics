@@ -3,5 +3,12 @@
 
 CMakeFiles/Computer_Graphics.dir/main.cpp.obj: \
  ../Circle.h \
+ ../Clipping.h \
+ ../CurveFilling.h \
+ ../FillingAlgorithms.h \
  ../Line.h \
+ ../LineFillingCircle.h \
+ ../allCircles.h \
+ ../allLines.h \
+ ../elipses.h \
  ../main.cpp
