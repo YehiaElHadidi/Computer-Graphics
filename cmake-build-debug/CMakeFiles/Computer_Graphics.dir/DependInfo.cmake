@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/main.cpp" "D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/cmake-build-debug/CMakeFiles/Computer_Graphics.dir/main.cpp.obj"
+  "D:/computer graphics/Computer-Graphics/main.cpp" "D:/computer graphics/Computer-Graphics/cmake-build-debug/CMakeFiles/Computer_Graphics.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

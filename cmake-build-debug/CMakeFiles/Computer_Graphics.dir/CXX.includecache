@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Circle.h
+D:/computer graphics/Computer-Graphics/Circle.h
 Line.h
-D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Line.h
+D:/computer graphics/Computer-Graphics/Line.h
 
-D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Line.h
+D:/computer graphics/Computer-Graphics/Line.h
 
-D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/main.cpp
+D:/computer graphics/Computer-Graphics/main.cpp
 tchar.h
 -
 windows.h
@@ -22,5 +22,5 @@ bits/stdc++.h
 fstream
 -
 Circle.h
-D:/university/Level 3/2nd Term/Graphics/Computer-Graphics/Circle.h
+D:/computer graphics/Computer-Graphics/Circle.h
 

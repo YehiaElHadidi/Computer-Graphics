@@ -2,6 +2,7 @@
 // Created by HaDiDi on 5/16/2023.
 //
 #include "Line.h"
+#include "allCircles.h"
 
 #ifndef COMPUTER_GRAPHICS_CIRCLE_H
 #define COMPUTER_GRAPHICS_CIRCLE_H
@@ -69,25 +70,25 @@ void draw8points(HDC hdc, int xc, int yc, int a, int b, COLORREF color) {
 
 }
 
-void drawCircle(HDC hdc, int xc, int yc, int r, COLORREF color) {
-
-    int x = 0;
-    int y = r;
-
-    int d = 1 - r;
-
-    while (x < y) {
-        if (d <= 0) {
-            d += 2 * x + 3;
-
-        } else {
-            d += 2 * (x - y) + 5;
-            y--;
-        }
-        x++;
-        draw8points(hdc, xc, yc, x, y, color);
-    }
-}
+//void drawCircle(HDC hdc, int xc, int yc, int r, COLORREF color) {
+//
+//    int x = 0;
+//    int y = r;
+//
+//    int d = 1 - r;
+//
+//    while (x < y) {
+//        if (d <= 0) {
+//            d += 2 * x + 3;
+//
+//        } else {
+//            d += 2 * (x - y) + 5;
+//            y--;
+//        }
+//        x++;
+//        draw8points(hdc, xc, yc, x, y, color);
+//    }
+//}
 
 int base = 0;
 int base1;
@@ -110,13 +111,13 @@ void draw8pointsWithCircles(HDC hdc, int xc, int yc, int a, int b, int r, COLORR
         base = (xc + a) + (r / 16);
         for (int i = yc; i <= yc + b; i += (r / 8)) {
             if (quadX < xc && quadY < yc) {
-                drawCircle(hdc, xc - a, i - b, r / 16, color);
+                drawCircleMidpoint(hdc, xc - a, i - b, r / 16, color);
             } else if (quadX > xc && quadY < yc)
-                drawCircle(hdc, xc + a, i - b, r / 16, color);
+                drawCircleMidpoint(hdc, xc + a, i - b, r / 16, color);
             else if (quadX > xc && quadY > yc)
-                drawCircle(hdc, xc + a, i, r / 16, color);
+                drawCircleMidpoint(hdc, xc + a, i, r / 16, color);
             else if (quadX < xc && quadY > yc)
-                drawCircle(hdc, xc - a, i, r / 16, color);
+                drawCircleMidpoint(hdc, xc - a, i, r / 16, color);
 
         }
     }
@@ -124,13 +125,13 @@ void draw8pointsWithCircles(HDC hdc, int xc, int yc, int a, int b, int r, COLORR
         base1 = (xc + b) - (r / 16);
         for (int i = yc; i <= yc + a; i += (r / 8)) {
             if (quadX < xc && quadY < yc)
-                drawCircle(hdc, xc - b, i - a, r / 16, color);
+                drawCircleMidpoint(hdc, xc - b, i - a, r / 16, color);
             else if (quadX > xc && quadY < yc)
-                drawCircle(hdc, xc + b, i - a, r / 16, color);
+                drawCircleMidpoint(hdc, xc + b, i - a, r / 16, color);
             else if (quadX > xc && quadY > yc)
-                drawCircle(hdc, xc + b, i, r / 16, color);
+                drawCircleMidpoint(hdc, xc + b, i, r / 16, color);
             else if (quadX < xc && quadY > yc)
-                drawCircle(hdc, xc - b, i, r / 16, color);
+                drawCircleMidpoint(hdc, xc - b, i, r / 16, color);
         }
     }
 
