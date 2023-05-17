@@ -181,6 +181,17 @@ void load(HDC hdc) {
     input.close();
 }
 
+MyPoint* GetPoints(MyPoint points[], int size, LPARAM lParam)
+{
+    for(int i =0; i < size; i++)
+    {
+        points[i].x=LOWORD(lParam);
+        points[i].y=HIWORD(lParam);
+        cout << "Point " << i <<endl;
+    }
+    return points;
+}
+
 PVector poly;
 MyPoint mp;
 
@@ -218,50 +229,52 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             case 5://Exit button
             exit(0);
             break;
-            case 6:
-                shape_no = 6;
+            default:
+                shape_no = (int)wParam;
                 break;
-                case 7:
-                    shape_no = 7;
-                    break;
-                    case 8:
-                        shape_no = 8;
-                        break;
-                        case 9:
-                            shape_no = 9;
-                            break;
-                            case 10:
-                                shape_no = 10;
-                                break;
-                                case 11:
-                                    shape_no = 11;
-                                    break;
-                                    case 12:
-                                        shape_no = 12;
-                                        break;
-                                        case 13:
-                                            shape_no = 13;
-                                            break;
-                                            case 14:
-                                                shape_no = 14;
-                                                break;
-                                                case 15:
-                                                    shape_no = 15;
-                                                    break;
-                                                    case 16:
-                                                        shape_no = 16;
-                                                        break;
-                                                        case 17:
-                                                            shape_no = 17;
-                                                            break;case 18:
-                                                                shape_no = 18;
-                                                                break;
-                                                                case 19:
-                                                                    shape_no = 19;
-                                                                    break;
-                                                                    case 20:
-                                                                        shape_no = 20;
-                                                                        break;
+                // shape_no = 6;
+                // break;
+                // case 7:
+                //     shape_no = 7;
+                //     break;
+                //     case 8:
+                //         shape_no = 8;
+                //         break;
+                //         case 9:
+                //             shape_no = 9;
+                //             break;
+                //             case 10:
+                //                 shape_no = 10;
+                //                 break;
+                //                 case 11:
+                //                     shape_no = 11;
+                //                     break;
+                //                     case 12:
+                //                         shape_no = 12;
+                //                         break;
+                //                         case 13:
+                //                             shape_no = 13;
+                //                             break;
+                //                             case 14:
+                //                                 shape_no = 14;
+                //                                 break;
+                //                                 case 15:
+                //                                     shape_no = 15;
+                //                                     break;
+                //                                     case 16:
+                //                                         shape_no = 16;
+                //                                         break;
+                //                                         case 17:
+                //                                             shape_no = 17;
+                //                                             break;case 18:
+                //                                                 shape_no = 18;
+                //                                                 break;
+                //                                                 case 19:
+                //                                                     shape_no = 19;
+                //                                                     break;
+                //                                                     case 20:
+                //                                                         shape_no = 20;
+                //                                                         break;
 
         }
         break;
@@ -471,6 +484,27 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                                                             cout<<cnt<<endl;
 
                                                             break;
+                                                        default:
+                                                            if(shape_no> 30)
+                                                            {
+                                                                int size = (shape_no-30)+2;
+                                                                MyPoint ConvexPoints[size];
+                                                                if(cnt == size-1)
+                                                                {
+                                                                    ConvexPoints[cnt].x = LOWORD(lParam);
+                                                                    ConvexPoints[cnt].y = HIWORD(lParam);
+                                                                    ConvexFilling(hdc, ConvexPoints, size, c);
+                                                                }else
+                                                                {
+                                                                    ConvexPoints[cnt].x = LOWORD(lParam);
+                                                                    ConvexPoints[cnt].y = HIWORD(lParam);
+                                                                    cout << ConvexPoints[cnt].x << " " << ConvexPoints[cnt].y << endl;
+                                                                    cnt++;
+                                                                }
+                                                                break;
+
+                                                            }
+
 
 
 
@@ -488,6 +522,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 void add_menu(HWND hWnd) {
     hMenu = CreateMenu();
     HMENU hshapemenu = CreateMenu();
+    HMENU hConvexSubMenu = CreatePopupMenu();
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR) hshapemenu, "Shapes");
     AppendMenu(hMenu, MF_STRING, 2, "Clear");
     AppendMenu(hMenu, MF_STRING, 3, "save");
@@ -506,8 +541,12 @@ void add_menu(HWND hWnd) {
     AppendMenu(hshapemenu, MF_STRING, 16, "line clipping");
     AppendMenu(hshapemenu, MF_STRING, 17, "RecursiveFloodFill");
     AppendMenu(hshapemenu, MF_STRING, 18, "NonRecursiveFloodFill");
+    AppendMenu(hshapemenu, MF_STRING | MF_POPUP, (UINT_PTR)hConvexSubMenu, "ConvexFilling");
     AppendMenu(hshapemenu, MF_STRING, 19, "circle point clipping");
     AppendMenu(hshapemenu, MF_STRING, 20, "circle line clipping");
+    AppendMenu(hConvexSubMenu, MF_STRING , 31, "3 Points");
+    AppendMenu(hConvexSubMenu, MF_STRING , 32, "4 Points");
+    AppendMenu(hConvexSubMenu, MF_STRING , 33, "5 Points");
 
 
 
