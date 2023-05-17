@@ -11,4 +11,5 @@ CMakeFiles/Computer_Graphics.dir/main.cpp.obj: \
  ../allCircles.h \
  ../allLines.h \
  ../elipses.h \
- ../main.cpp
+ ../main.cpp \
+ ../transformation.h
