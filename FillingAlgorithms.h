@@ -198,7 +198,6 @@ void GeneralPolygonFill(HDC hdc, MyPolygonPoint points[],int size,COLORREF c)
         y++;
 
     EdgeList ActiveList=table[y];
-    cout << y <<endl;
     while (!ActiveList.empty())
     {
         // Step 1 : Sort
