@@ -6,27 +6,6 @@
 #define GRAPHICSPROJECT_FILLINGALGORITHMS_H
 // #include <Line.h>
 
-typedef struct {
-    int x_min,x_max;
-
-} Table[1000];
-
-// struct ConvexPoint
-// {
-//     int x, y;
-//     ConvexPoint(int x=0,int y=0):x(x),y(y){}
-
-// } ;
-
-void InitTable(Table t)
-{
-    for(int i =0; i<1000; i++)
-    {
-        t[i].x_max=INT_MAX;
-        t[i].x_min=-INT_MAX;
-    }
-}
-
 void swap(MyPoint& P1,MyPoint& P2)
 {
     MyPoint temp = P1;
@@ -34,8 +13,28 @@ void swap(MyPoint& P1,MyPoint& P2)
     P2 = temp;
     return;
 }
-void Edge2Table(MyPoint P1,MyPoint P2, Table table)
+
+const int MAXENTRIES = 1000;
+//Filling
+typedef struct {
+    int xmin,xmax;
+
+} Table[1000];
+
+
+void InitTable(Table t)
 {
+    for(int i =0; i<1000; i++)
+    {
+        t[i].xmin=INT_MAX;
+        t[i].xmax=-INT_MAX;
+    }
+}
+
+void Edge2Table(MyPoint P1, MyPoint P2, Table table)
+{
+    // cout << v1.y << " == "  << v2.y<< endl;
+    
     // Horizontal Case
     if(P1.y==P2.y) return;
 
@@ -45,23 +44,24 @@ void Edge2Table(MyPoint P1,MyPoint P2, Table table)
         // swap(P1.x,P2.x);
         // swap(P1.y,P2.y);
     }
-
     double x = P1.x;
     int y=P1.y;
-    double slope = (P2.x-P1.x )/(P2.y-P1.y);
+    double invslope = (double)(P2.x-P1.x )/(P2.y-P1.y);
 
     while(y <P2.y)
     {
-        if(x < table[y].x_min) 
-            table[y].x_min =(int)ceil(x);
-        if(x > table[y].x_max) 
-            table[y].x_max =(int)floor(x);
+        if(x < table[y].xmin)
+        {
+                table[y].xmin =(int)ceil(x);
+        } 
+        if(x > table[y].xmax) 
+        {
+            table[y].xmax =(int)floor(x);
+        }
         y++;
-        x += slope;
+        x += invslope;
     }
-
 }
-
 void Polygon2Table(MyPoint points[], int size, Table table)
 {
     MyPoint v1 = points[size-1];
@@ -73,34 +73,27 @@ void Polygon2Table(MyPoint points[], int size, Table table)
         v1 = v2;
     }
 }
-
-void Table2Screen(HDC hdc,Table table, COLORREF c)
+void Table2Screen(HDC hdc, Table table, COLORREF color)
 {
-    for(int i=0; i < 200; i++)
-        if(table[i].x_min<table[i].x_max)
-            for(int j=table[i].x_min; j <= table[i].x_max; j++)
-                SetPixel(hdc, j, i, c);
-
+        for(int i=0; i < 1000; i++)
+        if(table[i].xmin < table[i].xmax)
+            for(int j=table[i].xmin; j <= table[i].xmax; j++)
+                SetPixel(hdc, j, i, color);
 }
-void ConvexFilling(HDC hdc,MyPoint points[], int size, COLORREF color)
+
+void ConvexFill(HDC hdc, MyPoint p[], int n, COLORREF color)
 {
+    // Entry* table = new Entry[600];
     Table table;
+    // InitEntries(table);
     InitTable(table);
-    cout << "No Error 1" <<endl;
-    Polygon2Table(points, size, table);
-    cout << "No Error 2" <<endl;
+    MyPoint v1 = p[n - 1];
+    Polygon2Table(p,n,table);
+    cout << "No Error 2" << endl;
     Table2Screen(hdc, table, color);
-    cout << "No Error 3" <<endl;
+    // delete table;
+    cout << "No Error 3" << endl;
 }
-
-// void ConvexFillInterface(HDC hdc, int size, COLORREF color,UINT message, LPARAM lParam)
-// {
-//     static MyPoint points[size];
-//     static int count=0;
-//     switch
-//     points[count].x = LOWORD(lp)
-
-// }
 
 void RecursiveFloodFill(HDC hdc, int x, int y, COLORREF Cb, COLORREF Cf)
 {
