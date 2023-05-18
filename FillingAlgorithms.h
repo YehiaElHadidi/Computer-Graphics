@@ -40,8 +40,7 @@ void Edge2Table(MyPoint P1, MyPoint P2, Table table)
     if(P1.y > P2.y)
     {
         swap(P1,P2);
-        // swap(P1.x,P2.x);
-        // swap(P1.y,P2.y);
+
     }
     double x = P1.x;
     int y=P1.y;
