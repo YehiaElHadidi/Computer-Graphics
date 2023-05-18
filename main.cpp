@@ -205,7 +205,8 @@ int y3;
 int x4;
 int y4;
 int shape_no = 1;
-
+int ConvexSize;
+MyPoint ConvexPoints[5];
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
     HDC hdc = GetDC(hwnd);
     switch (message)                  /* handle the messages */
@@ -487,35 +488,18 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                                                         default:
                                                             if(shape_no> 30)
                                                             {
-                                                                int size = (shape_no-30)+2;
-                                                                MyPoint ConvexPoints[size];
-                                                                
+                                                                ConvexSize = (shape_no-30)+2;
+
                                                                 ConvexPoints[cnt].x = LOWORD(lParam);
                                                                 ConvexPoints[cnt].y = HIWORD(lParam);
-                                                                if(cnt == size-1)
+                                                                if(cnt == ConvexSize-1)
                                                                 {
-                                                                    ConvexFill(hdc, ConvexPoints, size, c);
+                                                                    ConvexFill(hdc, ConvexPoints, ConvexSize, c);
                                                                     cnt = 0;
                                                                 }else
                                                                 {
                                                                     cnt++;
                                                                 }
-                                                    
-                                                                // if(cnt == size-1)
-                                                                // {
-                                                                //     ConvexPoints[cnt].x = LOWORD(lParam);
-                                                                //     ConvexPoints[cnt].y = HIWORD(lParam);
-                                                                //     ConvexFilling(hdc, ConvexPoints, size, c);
-                                                                //     cnt=0;
-                                                                // }else
-                                                                // {
-                                                                //     ConvexPoints[cnt].x = LOWORD(lParam);
-                                                                //     ConvexPoints[cnt].y = HIWORD(lParam);
-                                                                //     cout << ConvexPoints[cnt].x << " " << ConvexPoints[cnt].y << endl;
-                                                                //     cnt++;
-                                                                // }
-                                                                // cout<<cnt;
-                                                                break;
 
                                                             }
 
