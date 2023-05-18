@@ -204,8 +204,9 @@ int y3;
 int x4;
 int y4;
 int shape_no = 1;
-int ConvexSize;
+int FillingSize;
 MyPoint ConvexPoints[5];
+MyPolygonPoint NonConvexPoints[7];
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
     HDC hdc = GetDC(hwnd);
     switch (message)                  /* handle the messages */
@@ -483,13 +484,13 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                 default:
                     if(shape_no> 30 & shape_no < 40)
                     {
-                        ConvexSize = (shape_no-30)+2;
+                        FillingSize = (shape_no-30)+2;
 
                         ConvexPoints[cnt].x = LOWORD(lParam);
                         ConvexPoints[cnt].y = HIWORD(lParam);
-                        if(cnt == ConvexSize-1)
+                        if(cnt == FillingSize-1)
                         {
-                            ConvexFill(hdc, ConvexPoints, ConvexSize, c);
+                            ConvexFill(hdc, ConvexPoints, FillingSize, c);
                             cnt = 0;
                         }else
                         {
@@ -498,7 +499,18 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                     }
                     if(shape_no > 40)
                     {
+                        FillingSize = (shape_no-40)+4;
 
+                        NonConvexPoints[cnt].x = LOWORD(lParam);
+                        NonConvexPoints[cnt].y = HIWORD(lParam);
+                        if(cnt == FillingSize-1)
+                        {
+                            GeneralPolygonFill(hdc, NonConvexPoints, FillingSize, c);
+                            cnt = 0;
+                        }else
+                        {
+                            cnt++;
+                        }
                     }
                     break;
 
