@@ -14,7 +14,6 @@ void swap(MyPoint& P1,MyPoint& P2)
     return;
 }
 
-const int MAXENTRIES = 1000;
 //Filling
 typedef struct {
     int xmin,xmax;
@@ -33,7 +32,7 @@ void InitTable(Table t)
 
 void Edge2Table(MyPoint P1, MyPoint P2, Table table)
 {
-    // cout << v1.y << " == "  << v2.y<< endl;
+
     
     // Horizontal Case
     if(P1.y==P2.y) return;
@@ -83,16 +82,11 @@ void Table2Screen(HDC hdc, Table table, COLORREF color)
 
 void ConvexFill(HDC hdc, MyPoint p[], int n, COLORREF color)
 {
-    // Entry* table = new Entry[600];
     Table table;
-    // InitEntries(table);
     InitTable(table);
     MyPoint v1 = p[n - 1];
     Polygon2Table(p,n,table);
-    cout << "No Error 2" << endl;
     Table2Screen(hdc, table, color);
-    // delete table;
-    cout << "No Error 3" << endl;
 }
 
 void RecursiveFloodFill(HDC hdc, int x, int y, COLORREF Cb, COLORREF Cf)

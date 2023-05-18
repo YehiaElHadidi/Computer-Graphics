@@ -479,8 +479,9 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                     cin >> x >> y;
                     MidpointLine(hdc, x1, y11, x2, y2, 0x00FFFFFF);
                     traslateLine(hdc,x1, y11, x2, y2, c, x,y);
+                    break;
                 default:
-                    if(shape_no> 30)
+                    if(shape_no> 30 & shape_no < 40)
                     {
                         ConvexSize = (shape_no-30)+2;
 
@@ -495,6 +496,11 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
                             cnt++;
                         }
                     }
+                    if(shape_no > 40)
+                    {
+
+                    }
+                    break;
 
 
 
@@ -514,6 +520,7 @@ void add_menu(HWND hWnd) {
     hMenu = CreateMenu();
     HMENU hshapemenu = CreateMenu();
     HMENU hConvexSubMenu = CreatePopupMenu();
+    HMENU hNonConvexSubMenu = CreatePopupMenu();
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR) hshapemenu, "Shapes");
     AppendMenu(hMenu, MF_STRING, 2, "Clear");
     AppendMenu(hMenu, MF_STRING, 3, "save");
@@ -530,16 +537,20 @@ void add_menu(HWND hWnd) {
     AppendMenu(hshapemenu, MF_STRING, 14, "elipses");
     AppendMenu(hshapemenu, MF_STRING, 15, "polygon clipping");
     AppendMenu(hshapemenu, MF_STRING, 16, "line clipping");
-    AppendMenu(hshapemenu, MF_STRING, 17, "RecursiveFloodFill");
-    AppendMenu(hshapemenu, MF_STRING, 18, "NonRecursiveFloodFill");
-    AppendMenu(hshapemenu, MF_STRING | MF_POPUP, (UINT_PTR)hConvexSubMenu, "ConvexFilling");
+    AppendMenu(hshapemenu, MF_STRING, 17, "Recursive Flood Fill");
+    AppendMenu(hshapemenu, MF_STRING, 18, "NonRecursive Flood Fill");
     AppendMenu(hshapemenu, MF_STRING, 19, "circle point clipping");
     AppendMenu(hshapemenu, MF_STRING, 20, "circle line clipping");
     AppendMenu(hshapemenu, MF_STRING, 25, "translate");
     AppendMenu(hshapemenu, MF_STRING, 26, "scale");
+    AppendMenu(hshapemenu, MF_STRING | MF_POPUP, (UINT_PTR)hConvexSubMenu, "Convex Filling");
     AppendMenu(hConvexSubMenu, MF_STRING , 31, "3 Points");
     AppendMenu(hConvexSubMenu, MF_STRING , 32, "4 Points");
     AppendMenu(hConvexSubMenu, MF_STRING , 33, "5 Points");
+    AppendMenu(hshapemenu, MF_STRING | MF_POPUP, (UINT_PTR)hNonConvexSubMenu, "General Polygon Filling");
+    AppendMenu(hNonConvexSubMenu, MF_STRING , 41, "5 Points");
+    AppendMenu(hNonConvexSubMenu, MF_STRING , 42, "6 Points");
+    AppendMenu(hNonConvexSubMenu, MF_STRING , 43, "7 Points");
 
 
 
